@@ -11,17 +11,21 @@ public class Main {
         Scanner in = new Scanner(System.in);
         Random rand = new Random();
 
-        //Game Variables
+        //Game Variables such as enemy, health and attack damage and text
         String[] enemies = {"Skeleton", "Goblin", "Orc", "Cave Troll"};
+        String[] enemyHurt = {"Ouch!", "That hurts!", "Why are you so mean..."};
         int maxEnemyHealth = 75;
         int enemyAttackDamage = 25;
+        //int enemyGoldDrop = 10; VRAAG: hoe kan ik hier een randomizer van maken?
+        int enemyGoldDropChance = 30;
 
         //Player variables
         int playerHealth = 100;
         int playerAttackDamage = 50;
         int numHealthPotions = 3;
         int healthPotionHealAmount = 25;
-        int healthPotionDropChance = 60; //percentage
+        int healthPotionDropChance = 60;
+        int amountOfGold = 10;
 
         boolean isRunning = true;
 
@@ -34,16 +38,16 @@ public class Main {
             int enemyHealth = rand.nextInt(maxEnemyHealth);
             String enemy = enemies[rand.nextInt(enemies.length)];
             System.out.println("\t# " + enemy + " has appeared! #\n");
-            //In the console it looks like # Enemy has appeared! #
 
-            //Need a while loop for when we are in combat
+            //A while loop for combat
             while(enemyHealth > 0) {
                 System.out.println("\tYour HP: " + playerHealth);
                 System.out.println("\t" + enemy + "'s HP: " + enemyHealth);
                 System.out.println("\n\tWhat would you like to do?");
                 System.out.println("\t(1) Attack");
                 System.out.println("\t(2) Drink a health potion");
-                System.out.println("\t(3) Bravely run away, sir Robin!");
+                System.out.println("\t(3) Check out your gold");
+                System.out.println("\t(4) Bravely run away, sir Robin!");
 
                 String input = in.nextLine();
                 if(input.equals("1")){
@@ -53,10 +57,12 @@ public class Main {
                     //-= haalt eerst het getal eraf en geeft dan het resultaat
                     enemyHealth -= damageDealt;
                     playerHealth -= damageTaken;
+                    String cry = enemyHurt[rand.nextInt(enemyHurt.length)];
 
-                    System.out.println("\t> You strike the " + enemy + " for " + damageDealt + " damage!");
-                    System.out.println("\t> You took " + damageTaken + " amount of damage.");
-                    System.out.println("\t>Your HP is now " + playerHealth + "! Watch out!");
+                    System.out.println("\t>You strike the " + enemy + " for " + damageDealt + " damage!");
+                    System.out.println("\t\t\t" + enemy + " cries out: " + cry);
+                    System.out.println("\t>You took " + damageTaken + " damage.");
+                    System.out.println("\t>Your HP is now " + playerHealth + "...");
 
                     if(playerHealth < 1) {
                         System.out.println("\tBut did you die?");
@@ -76,6 +82,12 @@ public class Main {
 
                 }
                 else if(input.equals("3")){
+                    System.out.println("\t###################################################");
+                    System.out.println("\tYou have " + amountOfGold + "g.");
+                    System.out.println("\tYou can do absolutely nothing with it! So luxe!");
+                    System.out.println("\t###################################################");
+                }
+                else if(input.equals("4")){
                     System.out.println("--------------------------------------------------------------------------");
                     System.out.println("When danger reared it's ugly head,\n" +
                             "He bravely turned his tail and fled.\n" +
@@ -97,10 +109,15 @@ public class Main {
                 System.out.println("--------------------------------------------------------------------------");
                 System.out.println(" # " + enemy + " has been defeated! #");
                 System.out.println(" # You survived with " + playerHealth + " HP! #");
-                if(rand.nextInt(100) < healthPotionDropChance){
+                if(rand.nextInt(100) < healthPotionDropChance) {
                     numHealthPotions++;
                     System.out.println(" # The " + enemy + " dropped a health potion #");
                     System.out.println(" # You now have " + numHealthPotions + " health potions # ");
+                }
+                if(rand.nextInt(50) < enemyGoldDropChance){
+                    amountOfGold++;
+                    System.out.println(" # The " + enemy + " dropped some gold!");
+                    System.out.println("# You now have " + amountOfGold + "g.");
                 }
 
                 System.out.println("--------------------------------------------------------------------------");
